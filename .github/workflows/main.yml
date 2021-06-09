@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Run a one-line script
+        run: echo Hello, world!
+
+  deploy-dev:
+    runs-on: ubuntu-latest
+    environment: 
+      name: dev
+      url: 'dev.willemallan.com.br'
+    needs: build
+    steps:
+      - name: Run a one-line script
+        run: echo Deploy Dev
+
+  deploy-homolog:
+    runs-on: ubuntu-latest
+    environment: 
+      name: homolog
+      url: 'homolog.willemallan.com.br'
+    needs: deploy-dev
+    steps:
+      - name: Run a one-line script
+        run: echo Deploy Homolog
+
+  deploy-production:
+    runs-on: ubuntu-latest
+    environment: 
+      name: production
+      url: 'production.willemallan.com.br'
+    needs: deploy-homolog
+    steps:
+      - name: Run a one-line script
+        run: echo Deploy Production
